@@ -45,7 +45,9 @@ uv sync
 
 # Configure environment
 cp .env.example .env
-# Edit .env and configure your DATABASE_URL
+# Edit .env and configure:
+# - DATABASE_URL (PostgreSQL connection string)
+# - FRONTEND_URL (for CORS, default: http://localhost:3000)
 
 # Make sure PostgreSQL is running
 # The app will automatically create the database if it doesn't exist
@@ -59,6 +61,11 @@ cd frontend
 
 # Install Node.js dependencies
 npm install
+
+# Configure environment (optional for local dev)
+cp .env.example .env
+# Edit .env if you need to change the backend URL
+# Default: NUXT_PUBLIC_API_BASE_URL=http://localhost:8081
 ```
 
 ## Running the Application
@@ -156,6 +163,15 @@ npm run generate
 ```
 
 This creates static files in `frontend/.output/public/` that can be served by FastAPI or a static file server.
+
+## Deployment
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions including:
+- Environment variable configuration
+- Production deployment guide (platform-agnostic)
+- Docker/container examples
+- Production build testing
+- Troubleshooting common issues
 
 ## Extending the Template
 

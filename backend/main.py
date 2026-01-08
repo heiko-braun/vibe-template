@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
@@ -23,9 +24,14 @@ app = FastAPI(
 
 # Add CORS middleware
 # In development: allow localhost:3000
-# In production: configure with environment variables
+# In production: use FRONTEND_URL environment variable
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3000")
+# Remove trailing slash if present to ensure exact origin matching
+frontend_url = frontend_url.rstrip("/")
+
 allowed_origins = [
-    "http://localhost:3000",  # Development frontend
+    "http://localhost:3000",  # Development
+    frontend_url  # Production or custom frontend URL
 ]
 
 app.add_middleware(
