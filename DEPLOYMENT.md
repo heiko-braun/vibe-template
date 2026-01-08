@@ -16,7 +16,11 @@ Required environment variables for the backend:
 
 ```bash
 # Database (required)
-DATABASE_URL=postgresql://user:password@host:port/database
+# SQLite (file-based, no server needed)
+DATABASE_URL=sqlite:///./app.db
+
+# PostgreSQL (recommended for production)
+# DATABASE_URL=postgresql://user:password@host:port/database
 
 # Frontend URL for CORS (required in production)
 # Development: http://localhost:3000
@@ -61,7 +65,7 @@ The frontend uses a Nuxt dev proxy to forward `/api/*` requests to `http://local
 
 ### Prerequisites
 
-- PostgreSQL database accessible from your backend service
+- Database: SQLite (file-based) or PostgreSQL (server-based, recommended for production)
 - Two hosting environments (e.g., separate containers, VMs, or platform services)
 - Ability to set environment variables in your hosting platform
 - SSL/TLS certificates for HTTPS (required for production)
@@ -71,10 +75,16 @@ The frontend uses a Nuxt dev proxy to forward `/api/*` requests to `http://local
 1. **Prepare the backend service**:
    - Ensure Python 3.12+ is available
    - Install dependencies: `pip install uv && uv sync`
+   - For PostgreSQL: `uv pip install psycopg2-binary` (not needed for SQLite)
 
 2. **Set environment variables**:
    ```bash
-   DATABASE_URL=<your-postgres-connection-string>
+   # SQLite (simple, single-file database)
+   DATABASE_URL=sqlite:///./app.db
+
+   # PostgreSQL (recommended for production, multi-user apps)
+   # DATABASE_URL=postgresql://user:password@host:port/database
+
    FRONTEND_URL=https://yourdomain.com
    PORT=8081  # or use your platform's port variable
    ```
@@ -122,10 +132,19 @@ The frontend uses a Nuxt dev proxy to forward `/api/*` requests to `http://local
 
 ### Database Setup
 
+**Option 1: SQLite (Simple)**
+1. Set `DATABASE_URL=sqlite:///./app.db` in backend environment
+2. Database file is created automatically on first startup
+3. Tables are created automatically by SQLAlchemy
+
+**Option 2: PostgreSQL (Production)**
 1. **Provision a PostgreSQL database** in your hosting environment
-2. **Set `DATABASE_URL`** environment variable in backend service
-3. The database will be automatically initialized on first startup (tables created automatically)
-4. For schema changes, you may need to run migrations manually
+2. **Set `DATABASE_URL`** to PostgreSQL connection string in backend service
+3. **Install PostgreSQL driver**: `uv pip install psycopg2-binary`
+4. The database will be automatically created if it doesn't exist
+5. Tables are created automatically on first startup
+
+**Note**: For production deployments with multiple instances or high concurrency, PostgreSQL is strongly recommended over SQLite.
 
 ## Production Build Testing (Local)
 
@@ -177,7 +196,8 @@ The backend automatically configures CORS based on the `FRONTEND_URL` environmen
 ## Deployment Checklist
 
 ### Initial Setup
-- [ ] Provision PostgreSQL database
+- [ ] Choose database: SQLite (simple) or PostgreSQL (production)
+- [ ] If PostgreSQL: Provision database and install psycopg2-binary
 - [ ] Deploy backend with DATABASE_URL and FRONTEND_URL environment variables
 - [ ] Deploy frontend with NUXT_PUBLIC_API_BASE_URL environment variable (set during build)
 - [ ] Configure SSL/TLS certificates for both services

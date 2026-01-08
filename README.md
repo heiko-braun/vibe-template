@@ -4,7 +4,7 @@ A modern fullstack web application template with FastAPI backend and Nuxt 3 fron
 
 ## Features
 
-- **Backend**: FastAPI with PostgreSQL and SQLAlchemy ORM
+- **Backend**: FastAPI with SQLite/PostgreSQL and SQLAlchemy ORM
 - **Frontend**: Nuxt 3 with Tailwind CSS and @nuxt/ui components
 - **Type Safety**: Pydantic schemas for backend, TypeScript for frontend
 - **Modern Build Tools**: uv for Python, npm for Node.js
@@ -14,7 +14,7 @@ A modern fullstack web application template with FastAPI backend and Nuxt 3 fron
 
 ### Backend
 - **FastAPI** - Modern Python web framework
-- **PostgreSQL** - Relational database
+- **SQLite / PostgreSQL** - Database (SQLite default for development, PostgreSQL for production)
 - **SQLAlchemy** - Python ORM
 - **Pydantic** - Data validation and settings management
 - **uv** - Fast Python package manager
@@ -29,8 +29,8 @@ A modern fullstack web application template with FastAPI backend and Nuxt 3 fron
 
 - **Python 3.12+** - For backend
 - **Node.js 18+** - For frontend
-- **PostgreSQL** - Database (running locally or remotely)
 - **uv** - Python package manager (install with `curl -LsSf https://astral.sh/uv/install.sh | sh`)
+- **PostgreSQL** (optional) - Only needed if you want to use PostgreSQL instead of SQLite
 
 ## Setup
 
@@ -46,11 +46,11 @@ uv sync
 # Configure environment
 cp .env.example .env
 # Edit .env and configure:
-# - DATABASE_URL (PostgreSQL connection string)
+# - DATABASE_URL (default: SQLite, no setup needed)
 # - FRONTEND_URL (for CORS, default: http://localhost:3000)
 
-# Make sure PostgreSQL is running
-# The app will automatically create the database if it doesn't exist
+# The default configuration uses SQLite (no database server needed)
+# For PostgreSQL, update DATABASE_URL and install: uv pip install psycopg2-binary
 ```
 
 ### 2. Frontend Setup

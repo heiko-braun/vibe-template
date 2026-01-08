@@ -14,14 +14,18 @@ class Settings(BaseSettings):
         extra="ignore"
     )
 
-    database_url: str = "postgresql://postgres:postgres@localhost:5432/app"
+    database_url: str = "sqlite:///./app.db"
 
 
 settings = Settings()
 
 
 def create_database_if_not_exists():
-    """Create database if it doesn't exist"""
+    """Create database if it doesn't exist (PostgreSQL only)"""
+    # Only needed for PostgreSQL - SQLite creates database file automatically
+    if not settings.database_url.startswith('postgresql'):
+        return
+
     # Parse database name from URL
     match = re.search(r'/([^/]+)$', settings.database_url)
     if not match:
@@ -54,7 +58,7 @@ def create_database_if_not_exists():
             raise
 
 
-# Create database if needed
+# Create database if needed (PostgreSQL only)
 create_database_if_not_exists()
 
 # Create engine and session
