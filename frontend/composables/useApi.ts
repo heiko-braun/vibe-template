@@ -1,8 +1,13 @@
+/**
+ * Centralized API configuration composable
+ * Returns the base URL for API calls based on environment
+ */
 export const useApi = () => {
-  const apiBaseUrl = '/api'
+  const config = useRuntimeConfig()
+  const apiBaseUrl = config.public.apiBaseUrl as string
 
   async function fetchItems() {
-    const response = await fetch(`${apiBaseUrl}/items/`)
+    const response = await fetch(`${apiBaseUrl}/api/items/`)
     if (!response.ok) {
       throw new Error('Failed to fetch items')
     }
@@ -10,7 +15,7 @@ export const useApi = () => {
   }
 
   async function createItem(data: { title: string; description?: string }) {
-    const response = await fetch(`${apiBaseUrl}/items/`, {
+    const response = await fetch(`${apiBaseUrl}/api/items/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -24,7 +29,7 @@ export const useApi = () => {
   }
 
   async function updateItem(id: number, data: { title: string; description?: string }) {
-    const response = await fetch(`${apiBaseUrl}/items/${id}`, {
+    const response = await fetch(`${apiBaseUrl}/api/items/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -38,7 +43,7 @@ export const useApi = () => {
   }
 
   async function deleteItem(id: number) {
-    const response = await fetch(`${apiBaseUrl}/items/${id}`, {
+    const response = await fetch(`${apiBaseUrl}/api/items/${id}`, {
       method: 'DELETE',
     })
     if (!response.ok) {

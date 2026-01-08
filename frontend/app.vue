@@ -1,18 +1,19 @@
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          App Template
-        </h1>
-        <p class="text-lg text-gray-600 dark:text-gray-400">
-          Fullstack web application template with FastAPI & Nuxt 3
-        </p>
-      </div>
+    <UContainer class="py-12">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+        <!-- Header -->
+        <div class="text-center mb-12">
+          <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            App Template
+          </h1>
+          <p class="text-lg text-gray-600 dark:text-gray-400">
+            Fullstack web application template with FastAPI & Nuxt 3
+          </p>
+        </div>
 
-      <!-- Items List -->
-      <div class="mb-8">
+        <!-- Items List -->
+        <div class="mb-8">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">Items</h2>
           <UButton @click="showCreateModal = true" color="primary">
@@ -82,7 +83,8 @@
           </template>
         </UCard>
       </UModal>
-    </div>
+      </div>
+    </UContainer>
   </div>
 </template>
 
